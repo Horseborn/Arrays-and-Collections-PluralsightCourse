@@ -11,9 +11,10 @@ namespace Arrays_and_collections_2
             Console.WriteLine("Where do you want to go?");
             string location = Console.ReadLine();
 
-            BusRoute route = FindBusTo(allRoutes, location);
+            BusRoute[] routes = FindBusesTo(allRoutes, location);
 
-            if (route != null)
+            if (routes.Length > 0)
+                foreach(BusRoute route in routes)
                 Console.WriteLine($"You can use route {route}");
             else
                 Console.WriteLine($"No routes go to {location}");
@@ -22,14 +23,17 @@ namespace Arrays_and_collections_2
 
         }
 
-        public static BusRoute FindBusTo(BusRoute[] routes, string location)
+        public static BusRoute[] FindBusesTo(BusRoute[] routes, string location)
         {
-            foreach (BusRoute route in routes)
-            {
-                if (route.Origin == location || route.Destination == location)
-                    return route;
-            }
-            return null;
+            return Array.FindAll(routes,
+                route => route.Serves(location));
+
+            //foreach (BusRoute route in routes)
+            //{
+            //    if (route.Origin == location || route.Destination == location)
+            //        return route;
+            //}
+            //return null;
         }
     }
 }
